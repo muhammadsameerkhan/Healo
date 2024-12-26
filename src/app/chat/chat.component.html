@@ -1,0 +1,64 @@
+<div class="chat-container">
+    <div class="chat-header">
+      <div class="user-info">
+        <img src="/assets/img/ai-bot.jpg" alt="AI Assistant" class="avatar">
+        <span class="username">Medical Assistant</span>
+        <span class="status">Active now</span>
+      </div>
+    </div>
+  
+    <div #messageContainer class="chat-messages">
+
+      <div *ngFor="let message of messages" 
+           [ngClass]="{'message': true, 'sent': message.role === 'user', 'received': message.role === 'model'}"
+           [attr.data-streaming]="message.isStreaming">
+
+        <img [src]="message.role === 'user' ? '/assets/img/user-img.jpg' : '/assets/img/ai-bot.jpg'" 
+             [alt]="message.role === 'user' ? 'User Avatar' : 'AI Avatar'" 
+             class="avatar">
+        
+        <div class="message-content">
+          <p [innerHTML]="message.content"></p>
+          <span class="timestamp">{{message.timestamp | date:'shortTime'}}</span>
+        </div>
+      </div>
+
+      <!-- <div class="typing-indicator" *ngIf="isTyping && !isStreaming">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div> -->
+    </div>
+  
+    <div class="chat-input">
+      <input type="text" 
+             [(ngModel)]="user_input" 
+             placeholder="Type a message"
+             (keyup.enter)="sendMessage()">
+      
+      <div class="file-upload">
+        <input type="file" 
+               #fileInput
+               (change)="onFileSelected($event)"
+               [accept]="allowedFileTypes"
+               style="display: none">
+        <button class="file-button" (click)="fileInput.click()">
+          <i class="fas fa-paperclip"></i>
+        </button>
+      </div>
+
+      <div class="selected-file" *ngIf="selectedFile">
+        <span>{{ selectedFile.name }}</span>
+        <button class="remove-file" (click)="removeFile()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <button class="send-button" 
+              [disabled]="isTyping" 
+              (click)="sendMessage()">
+        <i class="fas" [ngClass]="{'fa-paper-plane': !isTyping, 'fa-spinner fa-spin': isTyping}"></i>
+      </button>
+    </div>
+</div>
+  
