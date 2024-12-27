@@ -119,7 +119,7 @@ export class ChatComponent implements AfterViewInit {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          api_key: 'fuPc24Rp5tcwcU4EGL37',
+          api_key: '',
           inputs: {
             "image": {
               "type": "base64",
@@ -194,7 +194,7 @@ export class ChatComponent implements AfterViewInit {
   }
 
   initialize_gemini() {
-    const genAI = new GoogleGenerativeAI("AIzaSyBP4A-_MrvT3Fna3Zw5BCXW9NkaTvE0YgU");
+    const genAI = new GoogleGenerativeAI("");
     const model = genAI.getGenerativeModel({ 
       model: "gemini-1.5-pro", 
       systemInstruction: {
