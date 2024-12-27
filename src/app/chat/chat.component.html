@@ -1,7 +1,7 @@
 <div class="chat-container">
     <div class="chat-header">
       <div class="user-info">
-        <img src="/assets/img/med-rob.png" alt="AI Assistant" class="avatar">
+        <img src="assets/img/med-rob.png" alt="AI Assistant" class="avatar">
         <div class="user-details">
           <span class="username">HEALO</span>
           <div class="active-status">
@@ -18,12 +18,18 @@
            [ngClass]="{'message': true, 'sent': message.role === 'user', 'received': message.role === 'model'}"
            [attr.data-streaming]="message.isStreaming">
 
-        <img [src]="message.role === 'user' ? '/assets/img/user-icon.png' : '/assets/img/med-rob.png'" 
+        <img [src]="message.role === 'user' ? 'assets/img/user-icon.png' : 'assets/img/med-rob.png'" 
              [alt]="message.role === 'user' ? 'User Avatar' : 'AI Avatar'" 
              class="avatar">
         
         <div class="message-content">
           <p [innerHTML]="message.content"></p>
+
+          <!-- Add image if available -->
+          <img *ngIf="message.imageBase64" [src]="'data:image/jpeg;base64,' + message.imageBase64" 
+          alt="Analysis visualization"
+          class="message-image">
+
           <span class="timestamp">{{message.timestamp | date:'shortTime'}}</span>
         </div>
       </div>

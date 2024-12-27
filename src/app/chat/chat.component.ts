@@ -8,6 +8,7 @@ interface ChatMessage {
   content: string;
   timestamp: Date;
   isStreaming?: boolean;
+  imageBase64?: string; 
 }
 
 interface Predictions {
@@ -67,6 +68,7 @@ export class ChatComponent implements AfterViewInit {
   isTyping: boolean = false;
   gemini_chat: ChatSession | null = null;
   isStreaming: boolean = false;
+  bb_base64Image: string = '';
 
   @ViewChild('chatInput') chatInput!: ElementRef;
   @ViewChild('fileInput') fileInput!: ElementRef;
@@ -148,15 +150,16 @@ export class ChatComponent implements AfterViewInit {
             }
           });
 
+          const visualization = this.model_response.outputs[0].bounding_box_visualization;
+          this.bb_base64Image = visualization?.value; // Get the base64 image from response
+          
           return response_text == '' ? 'no-stenosis detected' : response_text
         }
         else{
 
-          return "Please use the correct MRI - JPEG Converted Image"
+          return "Please use the correct MRI - JPEG Converted Image OR Clear picture of your MRI"
         }
 
-        const image_detection_boxes = this.model_response?.outputs[0].bounding_box_visualization;
-        
       }
     }
 
@@ -294,11 +297,25 @@ export class ChatComponent implements AfterViewInit {
                 if (chunkText) {
                   fullResponse += chunkText;
                   this.messages[streamMessageIndex].content = fullResponse;
+                  this.messages[streamMessageIndex].imageBase64 = this.bb_base64Image;
                   this.messages = [...this.messages];
                   this.scrollToBottom();
                 }
-              } catch (error) {
+              } 
+              catch (error) {
+                debugger
                 console.error('Error processing chunk:', error);
+                this.isStreaming = false; // Make sure to set streaming to false on error
+                this.isTyping = false;
+                let error_text = JSON.stringify(error)
+                if(error_text.includes("429")){
+
+                  this.messages[this.messages.length - 1].content = 'Unfortunately, quota on your free plan has been exhausted. Please wait until tomorrow :)';
+                }
+                else{
+                  this.messages[this.messages.length - 1].content = 'I apologize, but I encountered an error processing your request.';
+                }
+                this.messages[this.messages.length - 1].isStreaming = false;
               }
               
               this.messages[streamMessageIndex].isStreaming = false;
@@ -351,11 +368,15 @@ export class ChatComponent implements AfterViewInit {
           console.error('Error calling Gemini API:', error);
           this.isStreaming = false; // Make sure to set streaming to false on error
           this.isTyping = false;
-          this.messages.push({
-            role: 'model',
-            content: 'I apologize, but I encountered an error processing your request.',
-            timestamp: new Date(),
-          });  
+          let error_text = JSON.stringify(error)
+          if(error_text.includes("429")){
+
+            this.messages[this.messages.length - 1].content = 'Unfortunately, quota on your free plan has been exhausted. Please wait until tomorrow :)';
+          }
+          else{
+            this.messages[this.messages.length - 1].content = 'I apologize, but I encountered an error processing your request.';
+          }
+          this.messages[this.messages.length - 1].isStreaming = false;
         } 
         
         this.isTyping = false;

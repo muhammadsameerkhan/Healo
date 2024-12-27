@@ -125,7 +125,15 @@
     border-radius: 50%;
 }
 
+.message-image {
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 8px 0;
+}
+
 .message-content {
+    display: flex;
+    flex-direction: column;
     max-width: 70%;
     padding: 10px 15px;
     border-radius: 15px;
