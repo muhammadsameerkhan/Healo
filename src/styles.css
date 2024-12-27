@@ -123,12 +123,16 @@ h6 {
   }
 }
 
-
+.icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
 /*--------------------------------------------------------------
   # Disable aos animation delay on mobile devices
   --------------------------------------------------------------*/
-/* @media screen and (max-width: 768px) {
+@media screen and (max-width: 768px) {
   [data-aos-delay] {
     transition-delay: 0 !important;
   }
-} */
+}

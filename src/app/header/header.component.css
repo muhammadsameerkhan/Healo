@@ -133,3 +133,25 @@
 .navmenu li:hover>a span {
   display: block;
 }
+
+@keyframes borderBlink {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(0, 123, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+  }
+}
+
+.blink-border {
+  animation: borderBlink 2s infinite;
+  border-radius: 50%;
+}
+
+/* Stop animation when hovering */
+.blink-border:hover {
+  animation: none;
+}

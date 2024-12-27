@@ -2,15 +2,13 @@
   <nav id="navmenu" class="navmenu">
     <ul>
       <li>
-        <!-- href="/introduction" -->
-        <a class="active" (click)="dataEmitter.emit('hero')">
+        <a (click)="sendData('hero')" [ngClass]="{'active': currentSection === 'hero'}">
           <i class="bi bi-house navicon"></i>
-          <span>Introduction</span>
+          <span>Home</span>
         </a>
       </li>
       <li>
-        <!-- href="/chat" -->
-        <a (click)="dataEmitter.emit('chat')">
+        <a (click)="sendData('chat')" [ngClass]="{'active': currentSection === 'chat', 'blink-border': !isChatActive}">
           <i class="bi bi-chat-dots navicon"></i>
           <span>Chat</span>
         </a>

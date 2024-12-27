@@ -47,6 +47,7 @@ export class AppComponent {
   //   return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
   // }
   onDataReceived(data: string) {
+    debugger
     this.currentSection = data;
     const element = this.scrollContainer.nativeElement.querySelector(`app-${this.currentSection}`);
     if (element) {

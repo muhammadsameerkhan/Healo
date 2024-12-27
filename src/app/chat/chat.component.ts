@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ChatSession, GoogleGenerativeAI, SchemaType, SafetySetting } from "@google/generative-ai";
@@ -58,7 +58,7 @@ interface DetectorResponse {
   styleUrls: ['./chat.component.css']
 })
 
-export class ChatComponent {
+export class ChatComponent implements AfterViewInit {
   messages: ChatMessage[] = [];
   user_input: string = '';
   selectedFile: File | null = null;
@@ -68,7 +68,7 @@ export class ChatComponent {
   gemini_chat: ChatSession | null = null;
   isStreaming: boolean = false;
 
-
+  @ViewChild('chatInput') chatInput!: ElementRef;
   @ViewChild('fileInput') fileInput!: ElementRef;
   @ViewChild('messageContainer') messageContainer!: ElementRef;
 
@@ -225,8 +225,12 @@ export class ChatComponent {
   }
 
   constructor(){
-
     this.gemini_chat = this.initialize_gemini();
+  }
+
+  ngAfterViewInit() {
+    // Set focus to chat input after view is initialized
+    this.chatInput.nativeElement.focus();
   }
 
   async sendMessage() {
@@ -346,6 +350,7 @@ export class ChatComponent {
         catch (error) {
           console.error('Error calling Gemini API:', error);
           this.isStreaming = false; // Make sure to set streaming to false on error
+          this.isTyping = false;
           this.messages.push({
             role: 'model',
             content: 'I apologize, but I encountered an error processing your request.',

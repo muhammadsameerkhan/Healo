@@ -4,10 +4,48 @@
   width: 100%;
 } */
 
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* padding: 10px; */
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.username {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #2c3e50;
+  letter-spacing: 0.5px;
+}
+
+.active-status {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.7rem;
+  color: #65676B;
+}
+
+.online-indicator {
+  width: 6px;
+  height: 6px;
+  background-color: #2ecc71;
+  border-radius: 50%;
+  display: inline-block;
+}
+
 .user-info .avatar {
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    /* border: 2px solid #2ecc71; /* Add green border */
+    /* box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.2); Optional: adds subtle glow effect */
 }
 
 .chat-container {
@@ -23,7 +61,7 @@
 .chat-header {
     padding: 15px 20px;
     /* background: #f8f9fa; */
-    border-bottom: 1px solid #e9ecef;
+    border-bottom: 1px solid #dbdddf;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -57,17 +95,28 @@
     padding: 10px 20px;
     border: none;
     border-radius: 20px;
-    background: #007bff;
+    background: var(--accent-color);
+    /* background-color: transparent; */
     color: white;
+    /* color: var(--accent-color); Using the same accent color */
+    transition: 0.3s;
     cursor: pointer;
 }
 
+.send-button:hover {
+  opacity: 0.8;
+}
+
+.send-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 
 .message {
     display: flex;
     align-items: flex-start;
     gap: 10px;
-    max-width: 80%;
+    /* max-width: 80%; */
 }
 
 .message .avatar {
@@ -83,9 +132,18 @@
     background: #f8f9fa;
 }
 
-.message.sent .message-content {
+.message.sent {
+  flex-direction: row-reverse;
+}
+
+/* .message.sent .message-content {
     background: #007bff;
     color: white;
+} */
+
+.message.sent .message-content {
+  background-color: var(--accent-color); /* Using accent color for sent messages */
+  color: white;
 }
 
 .message.received .message-content {
@@ -119,6 +177,11 @@
     color: #6c757d;
     margin-top: 5px;
     display: block;
+}
+
+.sent .timestamp {
+  text-align: right;
+  color: #dbdddf;
 }
 
 .typing-indicator {

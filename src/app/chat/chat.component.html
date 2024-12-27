@@ -1,9 +1,14 @@
 <div class="chat-container">
     <div class="chat-header">
       <div class="user-info">
-        <img src="/assets/img/ai-bot.jpg" alt="AI Assistant" class="avatar">
-        <span class="username">Medical Assistant</span>
-        <span class="status">Active now</span>
+        <img src="/assets/img/med-rob.png" alt="AI Assistant" class="avatar">
+        <div class="user-details">
+          <span class="username">HEALO</span>
+          <div class="active-status">
+            <span class="online-indicator"></span>
+            <span>Active now</span>
+          </div>
+        </div>
       </div>
     </div>
   
@@ -13,7 +18,7 @@
            [ngClass]="{'message': true, 'sent': message.role === 'user', 'received': message.role === 'model'}"
            [attr.data-streaming]="message.isStreaming">
 
-        <img [src]="message.role === 'user' ? '/assets/img/user-img.jpg' : '/assets/img/ai-bot.jpg'" 
+        <img [src]="message.role === 'user' ? '/assets/img/user-icon.png' : '/assets/img/med-rob.png'" 
              [alt]="message.role === 'user' ? 'User Avatar' : 'AI Avatar'" 
              class="avatar">
         
@@ -31,7 +36,7 @@
     </div>
   
     <div class="chat-input">
-      <input type="text" 
+      <input type="text" #chatInput
              [(ngModel)]="user_input" 
              placeholder="Type a message"
              (keyup.enter)="sendMessage()">
